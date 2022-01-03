@@ -29,4 +29,19 @@ class RajaOngkirApi extends GetConnect {
 
     return city;
   }
+
+  Future<Response> getCost(
+      String origin, String destinetion, String weight, String courier) async {
+    final form = FormData({
+      'origin': origin,
+      'destination': destinetion,
+      'weight': weight,
+      'courier': courier
+    });
+
+    return post(url + "cost", form, headers: {
+      'key': key,
+      // 'content-type': 'application/x-www-form-urlencoded'
+    });
+  }
 }

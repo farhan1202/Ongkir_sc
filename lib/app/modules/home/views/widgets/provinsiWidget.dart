@@ -37,9 +37,11 @@ class ProvinsiWid extends GetView<HomeController> {
             if (type == 0) {
               controller.hiddenKotaAsal.value = true;
               controller.provIdAsal.value = 0;
+              controller.kotaIdAsal.value = 0;
             } else {
               controller.hiddenKotaTujuan.value = true;
               controller.provIdTujuan.value = 0;
+              controller.kotaIdTujuan.value = 0;
             }
           }
         },

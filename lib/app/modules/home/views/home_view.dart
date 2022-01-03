@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -37,6 +38,61 @@ class HomeView extends GetView<HomeController> {
                   ? SizedBox()
                   : CityWid(type: 1)),
               BeratBarang(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 30),
+                child: DropdownSearch<Map<String, dynamic>>(
+                  mode: Mode.BOTTOM_SHEET,
+                  items: const [
+                    {
+                      "code": "jne",
+                      "name": "Jalur Nugraha Ekakurir (JNE)",
+                    },
+                    {
+                      "code": "tiki",
+                      "name": "Titipan Kilat (TIKI)",
+                    },
+                    {
+                      "code": "pos",
+                      "name": "Perusahaan Opsional Surat (POS)",
+                    },
+                  ],
+                  hint: "Kurir",
+                  onChanged: (value) {
+                    if (value != null) {
+                      controller.kurir.value = value["code"];
+                    } else {
+                      controller.hiddenButton.value = true;
+                      controller.kurir.value = "";
+                    }
+                  },
+                  popupShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                  )),
+                  itemAsString: (item) => "${item!['name']}",
+                  popupItemBuilder: (context, item, isSelected) => Container(
+                    padding: EdgeInsets.all(20),
+                    child: Text(
+                      "${item['name']}",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  controller.prosesData();
+                },
+                child: Text("CEK ONGKOS KIRIM"),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  primary: Colors.red[900],
+                ),
+              ),
             ],
           );
         },

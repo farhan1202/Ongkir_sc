@@ -14,6 +14,9 @@ class HomeController extends GetxController {
   var provIdTujuan = 0.obs;
   var kotaIdTujuan = 0.obs;
 
+  var hiddenButton = true.obs;
+  var kurir = "".obs;
+
   late TextEditingController beratC;
   double berat = 0;
   String satuan = "gram";
@@ -51,6 +54,17 @@ class HomeController extends GetxController {
 
     satuan = value;
     print("$berat gram");
+  }
+
+  void prosesData() {
+    if (kotaIdAsal != 0 && kotaIdTujuan != 0 && berat > 0 && kurir != "") {
+      Get.defaultDialog(title: "Perhatian", middleText: "$kurir");
+    } else {
+      Get.defaultDialog(title: "Perhatian", middleText: "Harap Isi Semua Data");
+      RajaOngkirApi().getCost("501", "114", "1700", "jne").then((value) {
+        print(value.body);
+      });
+    }
   }
 
   RxList<Result> province = List<Result>.empty().obs;

@@ -48,7 +48,13 @@ class CityWid extends GetView<HomeController> {
                 } else {
                   controller.kotaIdTujuan.value = int.parse(value.cityId!);
                 }
-              } else {}
+              } else {
+                if (type == 0) {
+                  controller.kotaIdAsal.value = 0;
+                } else {
+                  controller.kotaIdTujuan.value = 0;
+                }
+              }
             },
             popupItemBuilder: (context, item, isSelected) {
               return Container(
