@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:ongkir/app/data/models/CityModels.dart';
+import 'package:ongkir/app/data/models/CostModels.dart';
 import 'package:ongkir/app/data/models/ProvinceModel.dart';
 
 class RajaOngkirApi extends GetConnect {
@@ -30,8 +31,8 @@ class RajaOngkirApi extends GetConnect {
     return city;
   }
 
-  Future<Response> getCost(
-      String origin, String destinetion, String weight, String courier) async {
+  Future<Cost?> getCost(
+      int origin, int destinetion, String weight, String courier) async {
     final form = FormData({
       'origin': origin,
       'destination': destinetion,
@@ -39,9 +40,14 @@ class RajaOngkirApi extends GetConnect {
       'courier': courier
     });
 
-    return post(url + "cost", form, headers: {
+    var data = await post(url + "cost", form, headers: {
       'key': key,
       // 'content-type': 'application/x-www-form-urlencoded'
     });
+
+    Cost cost;
+    cost = Cost.fromJson(data.body);
+
+    return cost;
   }
 }

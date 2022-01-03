@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ongkir/app/data/models/CityModels.dart' as kotaModel;
+import 'package:ongkir/app/data/models/CostModels.dart' as costModel;
 import 'package:ongkir/app/data/models/ProvinceModel.dart';
 import 'package:ongkir/app/data/providers/rajaOngkirApi.dart';
 
@@ -58,17 +60,78 @@ class HomeController extends GetxController {
 
   void prosesData() {
     if (kotaIdAsal != 0 && kotaIdTujuan != 0 && berat > 0 && kurir != "") {
-      Get.defaultDialog(title: "Perhatian", middleText: "$kurir");
+      getOngkos();
     } else {
       Get.defaultDialog(title: "Perhatian", middleText: "Harap Isi Semua Data");
-      RajaOngkirApi().getCost("501", "114", "1700", "jne").then((value) {
-        print(value.body);
-      });
+      // RajaOngkirApi().getCost(501, 114, 1700, "jne").then((value) {
+      //   print(value.body);
+      // });
     }
   }
 
   RxList<Result> province = List<Result>.empty().obs;
   RxList<kotaModel.Result> city = List<kotaModel.Result>.empty().obs;
+
+  Future<void> getOngkos() async {
+    var data = await RajaOngkirApi().getCost(
+      kotaIdAsal.value,
+      kotaIdTujuan.value,
+      berat.toString(),
+      kurir.value,
+    );
+    var resultData = data!.rajaongkir!.results![0];
+
+    var costData = resultData.costs;
+
+    Get.bottomSheet(
+      Container(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Text(
+              "${resultData.name}",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Column(
+              children: costData!
+                  .map((e) => ListTile(
+                        title: Text("${e.service}"),
+                        subtitle: Text("Rp ${e.cost![0].value}"),
+                        trailing: Text(resultData.code == "pos"
+                            ? "${e.cost![0].etd}"
+                            : "${e.cost![0].etd} Hari"),
+                      ))
+                  .toList(),
+            )
+          ],
+        ),
+      ),
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(15),
+        topRight: Radius.circular(15),
+      )),
+    );
+
+    // Get.bottomSheet(BottomSheet(
+    //   enableDrag: true,
+    //   shape:
+    //   builder: (context) {
+    //     return ;
+    //   },
+    //   onClosing: () {},
+    // ));
+
+    // Get.defaultDialog(
+    //     title: resultData.name.toString(),
+    //     content: Column(
+    //       children:
+    //     ));
+  }
 
   Future<RxList<Result>> getData() async {
     province.clear();
