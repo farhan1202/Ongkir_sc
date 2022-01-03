@@ -5,8 +5,13 @@ import 'package:ongkir/app/data/providers/rajaOngkirApi.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
-  var hiddenKota = true.obs;
-  var provId = 0.obs;
+  var hiddenKotaAsal = true.obs;
+  var provIdAsal = 0.obs;
+  var kotaIdAsal = 0.obs;
+
+  var hiddenKotaTujuan = true.obs;
+  var provIdTujuan = 0.obs;
+  var kotaIdTujuan = 0.obs;
 
   RxList<Result> province = List<Result>.empty().obs;
   RxList<kotaModel.Result> city = List<kotaModel.Result>.empty().obs;
