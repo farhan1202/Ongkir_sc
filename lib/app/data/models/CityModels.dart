@@ -31,26 +31,42 @@ class Rajaongkir {
     this.results,
   });
 
-  List<dynamic>? query;
+  Query? query;
   Status? status;
-  List<ResultCity>? results;
+  List<Result>? results;
 
   factory Rajaongkir.fromJson(Map<String, dynamic> json) => Rajaongkir(
-        query: List<dynamic>.from(json["query"].map((x) => x)),
+        query: Query.fromJson(json["query"]),
         status: Status.fromJson(json["status"]),
-        results: List<ResultCity>.from(
-            json["results"].map((x) => ResultCity.fromJson(x))),
+        results:
+            List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "query": List<dynamic>.from(query!.map((x) => x)),
+        "query": query!.toJson(),
         "status": status!.toJson(),
         "results": List<dynamic>.from(results!.map((x) => x.toJson())),
       };
 }
 
-class ResultCity {
-  ResultCity({
+class Query {
+  Query({
+    this.province,
+  });
+
+  String? province;
+
+  factory Query.fromJson(Map<String, dynamic> json) => Query(
+        province: json["province"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "province": province,
+      };
+}
+
+class Result {
+  Result({
     this.cityId,
     this.provinceId,
     this.province,
@@ -66,7 +82,7 @@ class ResultCity {
   String? cityName;
   String? postalCode;
 
-  factory ResultCity.fromJson(Map<String, dynamic> json) => ResultCity(
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
         cityId: json["city_id"],
         provinceId: json["province_id"],
         province: json["province"],

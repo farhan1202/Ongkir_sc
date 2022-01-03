@@ -18,9 +18,9 @@ class RajaOngkirApi extends GetConnect {
     return province;
   }
 
-  Future<City?> getAllCity() async {
+  Future<City?> getAllCity(int provId) async {
     final response = await get(
-      url + "city",
+      url + "city?province=$provId",
       headers: {"key": key},
     );
 
