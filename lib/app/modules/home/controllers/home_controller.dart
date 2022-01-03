@@ -1,20 +1,25 @@
 import 'package:get/get.dart';
+import 'package:ongkir/app/data/models/CityModels.dart';
+import 'package:ongkir/app/data/models/ProvinceModel.dart';
+import 'package:ongkir/app/data/providers/rajaOngkirApi.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  RxList<Result> province = List<Result>.empty().obs;
+  RxList<ResultCity> city = List<ResultCity>.empty().obs;
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  Future<RxList<Result>> getData() async {
+    province.clear();
 
-  @override
-  void onClose() {}
-  void increment() => count.value++;
+    var response = await RajaOngkirApi().getAllProvince();
+
+    if (response!.rajaongkir!.results != null) {
+      response.rajaongkir!.results?.forEach((element) {
+        province.add(element);
+      });
+    }
+
+    return province;
+  }
 }
