@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:ongkir/app/data/models/CityModels.dart' as kotaModel;
 import 'package:ongkir/app/data/models/ProvinceModel.dart';
@@ -12,6 +13,45 @@ class HomeController extends GetxController {
   var hiddenKotaTujuan = true.obs;
   var provIdTujuan = 0.obs;
   var kotaIdTujuan = 0.obs;
+
+  late TextEditingController beratC;
+  double berat = 0;
+  String satuan = "gram";
+
+  void ubahBerat(String value) {
+    berat = double.tryParse(value) ?? 0.0;
+    String cekSatuan = satuan;
+
+    switch (cekSatuan) {
+      case "gram":
+        berat = berat;
+        break;
+      case "kg":
+        berat = berat * 1000;
+        break;
+      default:
+        berat = berat;
+    }
+
+    print("$berat gram");
+  }
+
+  void ubahSatuan(String value) {
+    berat = double.tryParse(beratC.text) ?? 0.0;
+    switch (value) {
+      case "gram":
+        berat = berat;
+        break;
+      case "kg":
+        berat = berat * 1000;
+        break;
+      default:
+        berat = berat;
+    }
+
+    satuan = value;
+    print("$berat gram");
+  }
 
   RxList<Result> province = List<Result>.empty().obs;
   RxList<kotaModel.Result> city = List<kotaModel.Result>.empty().obs;
@@ -41,5 +81,19 @@ class HomeController extends GetxController {
     }
 
     return city;
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    beratC = TextEditingController(text: "$berat");
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    beratC.dispose();
+    super.onClose();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:ongkir/app/modules/home/views/widgets/berat.dart';
 import 'package:ongkir/app/modules/home/views/widgets/kotaWidget.dart';
 import 'package:ongkir/app/modules/home/views/widgets/provinsiWidget.dart';
 
@@ -35,6 +36,7 @@ class HomeView extends GetView<HomeController> {
               Obx(() => controller.hiddenKotaTujuan.isTrue
                   ? SizedBox()
                   : CityWid(type: 1)),
+              BeratBarang(),
             ],
           );
         },
